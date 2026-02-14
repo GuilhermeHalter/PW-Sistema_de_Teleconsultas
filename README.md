@@ -11,6 +11,10 @@ Além disso, pacientes frequentemente encontram problemas como falta de confirma
 
 Sistema de Teleconsulta que permite o gerenciamento de médicos e seus horários de atendimento, oferecendo um fluxo completo de check-in do paciente com validação de pagamento. Após a confirmação, o sistema libera o link da chamada, garantindo controle de agenda, segurança no acesso e uma experiência organizada de atendimento médico online.
 
+## Mapa Stakeholders
+
+<img width="1687" height="986" alt="Stakeholders teleconsultas" src="https://github.com/user-attachments/assets/6cba5634-49aa-49a0-9ebd-118262c523bd" />
+
 ## Funcionalidades
 
 - Cadastro e gerenciamento de médicos
@@ -19,16 +23,11 @@ Sistema de Teleconsulta que permite o gerenciamento de médicos e seus horários
 - Liberação automática do link da consulta após confirmação
 - Controle de agenda e segurança nos atendimentos
 
+## Regras de Negócios
 
-## Tecnologias
+## Requisitos Funcionais
 
-- **Front-end**: Vue.js
-- **Back-end**: Django (Python)
-- **Banco de Dados**: MySQL
-- **Autenticação:** JWT
-- **Pagamento:** Stripe / PayPal
-- **Videochamada:** WebRTC / Twilio Video
-- **Testes**: Cypress (Testes)
+## Requisitos Não Funcionais
 
 ## Definição de Arquitetura
 
@@ -88,11 +87,51 @@ Atende ao princípio:
 
 Reduz acoplamento e melhora testabilidade.
 
-## Regras de Negócios
+## Tecnologias
 
-## Requisitos Funcionais
+- **Front-end**: Vue.js
+    - Curva de aprendizado menor que React e Angular
+    - Estrutura reativa simples e organizada
+    - Excelente separação de responsabilidades (Componentização clara)
+    - Ótimo equilíbrio entre performance e simplicidade
+    - Integração fluida com APIs REST
+      
+- **Back-end**: Django (Python)
+    - Framework robusto e maduro
+    - Segurança nativa (CSRF, ORM seguro, autenticação)
+    - ORM integrado → rapidez no desenvolvimento
+    - Estrutura organizada (MTV)
+    - Excelente para APIs com Django REST Framework
 
-## Requisitos Não Funcionais
+- **Banco de Dados**: MySQL
+    - Banco relacional consolidado
+    - Alta confiabilidade
+    - Excelente suporte no Django
+    - Ideal para dados estruturados (usuários, consultas, pagamentos)
+  
+- **Autenticação:** JWT
+    - Stateless
+    - Ideal para SPA
+    - Escalável
+    - Facilita separação frontend/backend
+      
+- **Pagamento:** Stripe / PayPal
+    - APIs maduras
+    - Segurança certificada
+    - Webhooks robustos
+    - Documentação clara
+    - Amplamente usados no mercado
+      
+- **Videochamada:** Jitsi
+    - 100% grátis
+    - Pode hospedar seu próprio servidor
+    - Fácil integração via iframe
+
+- **Testes**: Cypress
+    - Testes end-to-end reais
+    - Simula comportamento do usuário
+    - Excelente integração com SPA
+    - Feedback visual
 
 # Diagramas:
 
