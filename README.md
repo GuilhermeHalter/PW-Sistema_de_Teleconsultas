@@ -100,7 +100,83 @@ Sistema de Teleconsulta que permite o gerenciamento de médicos e seus horários
 
 ## Requisitos Funcionais
 
+RF001: Cadastro de Usuário
+Descrição: O sistema deve permitir que usuários realizem cadastro informando nome completo, e-mail e senha para criação de conta na plataforma.
+Usuários: Médico, Paciente
+
+RF002: Autenticação de Usuário
+Descrição: O sistema deve permitir que usuários autenticados acessem a plataforma por meio de login com e-mail e senha validados.
+Usuários: Médico, Paciente
+
+RF003: Gerenciamento de Perfil
+Descrição: O sistema deve permitir que o usuário visualize e edite suas informações pessoais cadastradas.
+Usuários: Médico, Paciente
+
+RF004: Cadastro de Horários Disponíveis
+Descrição: O sistema deve permitir que o médico cadastre, edite e remova horários disponíveis para atendimento.
+Usuários: Médico
+
+RF005: Visualização de Horários Disponíveis
+Descrição: O sistema deve permitir que o paciente visualize os horários disponíveis de um médico para agendamento.
+Usuários: Paciente
+
+RF006: Agendamento de Consulta
+Descrição: O sistema deve permitir que o paciente agende uma consulta selecionando médico, data e horário disponíveis.
+Usuários: Paciente
+
+RF007: Integração com Sistema de Pagamento
+Descrição: O sistema deve integrar-se a um gateway de pagamento para processar o pagamento da consulta no momento do agendamento.
+Usuários: Paciente
+
+RF008: Validação Automática de Pagamento
+Descrição: O sistema deve validar automaticamente a confirmação do pagamento antes de confirmar o agendamento da consulta.
+Usuários: Paciente, Médico
+
+RF009: Confirmação de Consulta
+Descrição: O sistema deve confirmar automaticamente a consulta após a validação do pagamento e notificar as partes envolvidas.
+Usuários: Médico, Paciente
+
+RF010: Geração de Link Seguro para Teleconsulta
+Descrição: O sistema deve gerar um link exclusivo e seguro para cada consulta confirmada.
+Usuários: Médico, Paciente
+
+RF011: Controle de Acesso à Consulta
+Descrição: O sistema deve permitir acesso ao link da teleconsulta apenas aos usuários autenticados e vinculados à consulta.
+Usuários: Médico, Paciente
+
+RF012: Cancelamento de Consulta
+Descrição: O sistema deve permitir o cancelamento da consulta, registrando o status e aplicando regras definidas pela plataforma.
+Usuários: Médico, Paciente
+
+RF013: Histórico de Consultas
+Descrição: O sistema deve permitir que usuários visualizem o histórico de consultas realizadas e agendadas.
+Usuários: Médico, Paciente
+
 ## Requisitos Não Funcionais
+
+RNF001: O sistema deve garantir autenticação segura utilizando criptografia de senhas e tokens de acesso.
+
+RNF002: O sistema deve utilizar protocolo HTTPS para garantir a confidencialidade e integridade dos dados trafegados.
+
+RNF003: O sistema deve possuir controle de acesso baseado em perfis (Médico e Paciente).
+
+RNF004: O tempo de resposta das requisições críticas (login, agendamento, confirmação de pagamento) não deve ultrapassar 3 segundos em condições normais de uso.
+
+RNF005: O sistema deve registrar logs de acesso e operações críticas para auditoria e rastreabilidade.
+
+RNF006: O sistema deve permitir escalabilidade horizontal para suportar aumento no número de usuários simultâneos.
+
+RNF007: O sistema deve garantir integridade transacional no processo de agendamento e pagamento.
+
+RNF008: A interface deve ser responsiva, permitindo uso adequado em dispositivos desktop, tablet e smartphone.
+
+RNF009: O sistema deve garantir backup periódico do banco de dados.
+
+RNF010: O sistema deve permitir manutenção evolutiva e corretiva sem comprometer a integridade dos dados existentes.
+
+RNF011: O sistema deve possuir validação de dados tanto no front-end quanto no back-end.
+
+RNF012: O sistema deve ser compatível com os principais navegadores modernos (Chrome, Firefox, Edge).
 
 ## Definição de Arquitetura
 
