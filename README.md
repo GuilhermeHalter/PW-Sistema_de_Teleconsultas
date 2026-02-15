@@ -25,6 +25,79 @@ Sistema de Teleconsulta que permite o gerenciamento de médicos e seus horários
 
 ## Regras de Negócios
 
+**RN01 –** O sistema deve possuir dois perfis principais: Médico e Paciente.
+
+**RN02 –** O cadastro de usuários deve exigir autenticação segura (e-mail e senha criptografada).
+
+**RN03 –** Apenas médicos previamente cadastrados e ativos podem disponibilizar horários para consulta.
+
+**RN04 –** O acesso às funcionalidades deve respeitar o nível de permissão de cada perfil.
+
+**RN05 –** O médico pode cadastrar, editar e remover horários disponíveis para atendimento.
+
+**RN06 –** Um horário só pode ser reservado por um único paciente.
+
+**RN07 –** O sistema deve impedir dupla reserva do mesmo horário (controle de concorrência).
+
+**RN08 –** Após a reserva, o horário deve ficar automaticamente indisponível na agenda pública.
+
+**RN09 –** O paciente só poderá agendar uma consulta em horários previamente disponibilizados pelo médico.
+
+**RN10 –** O agendamento só será confirmado após a validação do pagamento.
+
+**RN11 –** Caso o pagamento não seja confirmado, o horário deve retornar automaticamente para disponível.
+
+**RN12 –** O sistema deve gerar um identificador único para cada consulta agendada.
+
+**RN13 –** O pagamento deve ser realizado por meio de integração com gateway externo (ex: Stripe/PayPal).
+
+**RN14 –** A confirmação da consulta depende do retorno positivo da API de pagamento.
+
+**RN15 –** O sistema deve registrar o status do pagamento (Pendente, Aprovado, Recusado, Estornado).
+
+**RN16 –** Em caso de falha no pagamento, o paciente deve ser notificado imediatamente.
+
+**RN17 –** O link da videochamada só deve ser gerado ou liberado após confirmação do pagamento.
+
+**RN18 –** O link deve ser único por consulta e possuir controle de acesso autenticado.
+
+**RN19 –** O acesso ao link deve estar disponível apenas dentro do intervalo de horário da consulta.
+
+**RN20 –** Apenas médico e paciente vinculados à consulta podem acessar a sala virtual.
+
+**RN21 –** O paciente pode cancelar a consulta até um prazo mínimo definido pelo sistema (ex: 24h antes).
+
+**RN22 –** O médico pode cancelar a consulta, devendo o paciente ser notificado automaticamente.
+
+**RN23 –** Em caso de cancelamento dentro das regras, o sistema deve permitir estorno automático conforme política definida.
+
+**RN24 –** O horário cancelado deve retornar à agenda como disponível.
+
+**RN25 –** O sistema deve utilizar autenticação via JWT para validação de sessão.
+
+**RN26 –** Todas as requisições sensíveis devem exigir token válido.
+
+**RN27 –** Dados sensíveis (informações pessoais e pagamentos) devem ser armazenados de forma criptografada.
+
+**RN28 –** O sistema deve registrar logs de acesso às consultas para auditoria.
+
+**RN29 –** O paciente deve receber confirmação automática após agendamento e pagamento aprovado.
+
+**RN30 –** O médico deve ser notificado sobre novas consultas agendadas.
+
+**RN31 –** O sistema deve enviar lembrete automático antes do horário da consulta.
+
+**RN32 –** A consulta deve possuir os seguintes estados:
+
+- Disponível
+- Reservada
+- Aguardando Pagamento
+- Confirmada
+- Cancelada
+- Finalizada
+  
+**RN33 –** As transições entre estados devem respeitar o fluxo definido pelo sistema (máquina de estados).
+
 ## Requisitos Funcionais
 
 ## Requisitos Não Funcionais
