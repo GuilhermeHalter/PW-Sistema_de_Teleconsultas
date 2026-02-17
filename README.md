@@ -286,6 +286,8 @@ Reduz acoplamento e melhora testabilidade.
 
 ## Caso de Uso
 
+<img width="1423" height="1397" alt="PW-Teleconsulta drawio" src="https://github.com/user-attachments/assets/c069079a-0c58-4aa3-ae03-bff38eebecc5" />
+
 ## C4Model
 
 ## UML
