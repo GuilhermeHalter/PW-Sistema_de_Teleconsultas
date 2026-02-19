@@ -290,6 +290,10 @@ Reduz acoplamento e melhora testabilidade.
 
 ## C4Model
 
+<img width="936" height="645" alt="Captura de tela 2026-02-18 182407" src="https://github.com/user-attachments/assets/784c68d5-32c8-4350-b2ce-efd07bd5735c" />
+
+<img width="936" height="645" alt="Captura de tela 2026-02-18 184847" src="https://github.com/user-attachments/assets/0c4376e6-42c9-4e4f-964d-0a0d14febb5d" />
+
 ## UML
 
 ## Classe
