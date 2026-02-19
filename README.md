@@ -294,6 +294,10 @@ Reduz acoplamento e melhora testabilidade.
 
 <img width="936" height="645" alt="Captura de tela 2026-02-18 184847" src="https://github.com/user-attachments/assets/0c4376e6-42c9-4e4f-964d-0a0d14febb5d" />
 
+<img width="1116" height="728" alt="Captura de tela 2026-02-19 115001" src="https://github.com/user-attachments/assets/8104da83-299d-4f0f-a6d5-6352dc423bd1" />
+
+
+
 ## UML
 
 ## Classe
