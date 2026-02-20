@@ -284,10 +284,6 @@ Reduz acoplamento e melhora testabilidade.
 
 # Diagramas:
 
-## Caso de Uso
-
-<img width="1423" height="1397" alt="PW-Teleconsulta drawio" src="https://github.com/user-attachments/assets/c069079a-0c58-4aa3-ae03-bff38eebecc5" />
-
 ## C4Model
 
 <img width="936" height="645" alt="Captura de tela 2026-02-18 182407" src="https://github.com/user-attachments/assets/784c68d5-32c8-4350-b2ce-efd07bd5735c" />
@@ -297,8 +293,16 @@ Reduz acoplamento e melhora testabilidade.
 <img width="1116" height="728" alt="Captura de tela 2026-02-19 115001" src="https://github.com/user-attachments/assets/8104da83-299d-4f0f-a6d5-6352dc423bd1" />
 
 
-
 ## UML
+### Caso de Uso
 
-## Classe
+<img width="1423" height="1397" alt="PW-Teleconsulta drawio" src="https://github.com/user-attachments/assets/c069079a-0c58-4aa3-ae03-bff38eebecc5" />
+
+### Classe
+
+<img width="2294" height="2418" alt="PW-Teleconsultas-classe" src="https://github.com/user-attachments/assets/8e760631-7962-45dd-aa4f-b6fbfa7e8201" />
+
+### Sequência
+
+### Atividades
 
