@@ -307,4 +307,5 @@ Reduz acoplamento e melhora testabilidade.
 <img width="3129" height="2093" alt="PW-Teleconsultas-sequencia (1)" src="https://github.com/user-attachments/assets/69956fa2-c58d-42e2-84eb-8e00b8a751ef" />
 
 ### Atividades
+<img width="4063" height="3900" alt="PW-Teleconsultas-atividade (1)" src="https://github.com/user-attachments/assets/ddd83a26-2a79-4665-9821-98b8742a6964" />
 
