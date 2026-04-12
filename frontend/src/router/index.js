@@ -9,6 +9,8 @@ import DashboardPacienteView from '../view/patient/DashboardPacienteView.vue';
 import HistoricoConsultaView from '../view/patient/HistoricoConsultaView.vue';
 import SalaTeleconsultaView from '../view/patient/SalaTeleconsultaView.vue';
 import PagamentoView from '../view/patient/PagamentoView.vue';
+import AgendarConsultasView from '../view/patient/AgendarConsultasView.vue';
+import HorariosConsultasView from '../view/patient/HorariosConsultasView.vue';
 
 import DashboardMedicoView from '../view/doctor/DashboardMedicoView.vue';
 import GerenciarAgendaView from '../view/doctor/GerenciarAgendaView.vue';
@@ -20,12 +22,14 @@ const router = createRouter({
   routes: [
     { path: '/cadastro', name: 'cadastro', component: CadastroView },
     { path: '/login', name: 'login', component: LoginView },
-    { path: '/home', name: 'home', component: HomeView },
+    { path: '/', name: 'home', component: HomeView },
     { path: '/perfil', name: 'perfil', component: PerfilView },
     { path: '/dashboard-paciente', name: 'dashboard-paciente', component: DashboardPacienteView },
     { path: '/historico-consultas', name: 'historico-consultas', component: HistoricoConsultaView },
     { path: '/sala-teleconsulta', name: 'sala-teleconsulta', component: SalaTeleconsultaView },
     { path: '/pagamento', name: 'pagamento', component: PagamentoView },
+    { path: '/agendamento-consulta', name: 'agendamento', component: AgendarConsultasView},
+    { path: '/horarios-consulta', name: 'horarios-consulta', component: HorariosConsultasView },
     { path: '/dashboard-medico', name: 'dashboard-medico', component: DashboardMedicoView },
     { path: '/gerenciar-agenda', name: 'gerenciar-agenda', component: GerenciarAgendaView },
     { path: '/lista-consultas', name: 'lista-consultas', component: ListaConsultaView },

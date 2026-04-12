@@ -20,11 +20,17 @@
             <li class="nav-item"><a class="nav-link text-muted" href="#">Contato</a></li>
           </ul>
           <div class="d-flex align-items-center gap-3">
-            <a href="#" class="text-dark text-decoration-none fw-medium">Entrar</a>
-            <button class="btn btn-primary-custom rounded-pill px-4 py-2 fw-medium shadow-sm">
-              Agendar Consulta
-            </button>
-          </div>
+  <router-link 
+    to="/login" 
+    class="text-dark text-decoration-none fw-medium"
+  >
+    Entrar
+  </router-link>
+
+  <button class="btn btn-primary-custom rounded-pill px-4 py-2 fw-medium shadow-sm">
+    Agendar Consulta
+  </button>
+</div>
         </div>
       </div>
     </nav>
@@ -171,6 +177,7 @@
 </template>
 
 <script setup>
+
 const services = [
   { title: 'Clínico Geral', desc: 'Consultas para avaliação de saúde geral, orientações e encaminhamentos.', price: 'R$ 89' },
   { title: 'Dermatologia', desc: 'Cuidados com a pele, cabelos e unhas. Diagnósticos e tratamentos especializados.', price: 'R$ 149' },
@@ -189,9 +196,7 @@ const steps = [
 </script>
 
 <style>
-/* Importando fontes modernas parecidas com o design */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
-/* Importando os ícones do Bootstrap */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
 :root {
