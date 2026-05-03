@@ -23,9 +23,9 @@
            <button class="btn btn-filter"><i class="bi bi-filter"></i></button>
            <select class="form-select custom-select">
             <option>Todas as especialidades</option>
-            <option>Cardiologia</option>
-            <option>Dermatologia</option>
-            <option>Pediatria</option>
+            <option>Cardiologista</option>
+            <option>Dermatologista</option>
+            <option>Pediatra</option>
           </select>
         </div>
       </div>
