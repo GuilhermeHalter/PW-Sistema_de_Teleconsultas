@@ -5,18 +5,19 @@
     <main class="content flex-grow-1 p-4">
       
       <div class="mb-4">
-        <button class="btn btn-back d-flex align-items-center gap-2 text-muted fw-medium" @click="$router.back()">
+        <button class="btn btn-back d-flex align-items-center gap-2 fw-medium" @click="$router.back()">
           <i class="bi bi-arrow-left"></i> Voltar para lista de médicos
         </button>
       </div>
 
+      <!-- Card do Perfil do Médico -->
       <div class="section-card p-4 mb-4">
         <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
           <div class="d-flex gap-4 align-items-center">
-            <div class="avatar-large bg-blue-soft text-primary-custom">DC</div>
+            <div class="avatar-large bg-cyan-soft text-blue-deep">DC</div>
             <div>
               <h4 class="fw-bold mb-1">Dr. Carlos Mendes</h4>
-              <p class="text-info-custom fw-medium mb-2">Cardiologista</p>
+              <p class="text-azure fw-medium mb-2">Cardiologista</p>
               <p class="text-muted small mb-3 max-w-600">
                 Especialista em cardiologia clínica e preventiva. Formado pela USP com residência no InCor.
               </p>
@@ -29,21 +30,22 @@
           </div>
           <div class="text-end">
             <small class="text-muted d-block">Valor da consulta</small>
-            <h3 class="fw-bold text-dark">R$ 250,00</h3>
+            <h3 class="fw-bold text-blue-deep">R$ 250,00</h3>
           </div>
         </div>
       </div>
 
       <div class="row g-4">
+        <!-- Seleção de Data -->
         <div class="col-lg-7">
           <div class="section-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-4">
-              <h6 class="fw-bold mb-0 d-flex align-items-center gap-2">
-                <i class="bi bi-calendar3"></i> Selecione uma Data
+              <h6 class="fw-bold mb-0 d-flex align-items-center gap-2 text-dark">
+                <i class="bi bi-calendar3 text-azure"></i> Selecione uma Data
               </h6>
               <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-icon-sm"><i class="bi bi-chevron-left"></i></button>
-                <span class="fw-bold small">Abril 2026</span>
+                <span class="fw-bold small text-blue-deep">Abril 2026</span>
                 <button class="btn btn-icon-sm"><i class="bi bi-chevron-right"></i></button>
               </div>
             </div>
@@ -64,10 +66,11 @@
           </div>
         </div>
 
+        <!-- Horários Disponíveis -->
         <div class="col-lg-5">
           <div class="section-card p-4 h-100">
-            <h6 class="fw-bold mb-1 d-flex align-items-center gap-2">
-              <i class="bi bi-clock"></i> Horários Disponíveis
+            <h6 class="fw-bold mb-1 d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-clock text-azure"></i> Horários Disponíveis
             </h6>
             <p class="text-muted small mb-4">Horários para 16 de Abril de 2026</p>
 
@@ -79,7 +82,7 @@
               </div>
             </div>
             
-            <button class="btn btn-primary-custom w-100 mt-4 py-2 fw-bold rounded-3">
+            <button class="btn btn-primary-custom w-100 mt-4 py-3 fw-bold rounded-3 shadow-sm">
               Confirmar Agendamento
             </button>
           </div>
@@ -106,7 +109,7 @@ const times = [
   { val: '14:30', available: false, active: false },
   { val: '15:00', available: false, active: false },
   { val: '15:30', available: true, active: false },
-  { val: '16:00', available: true, active: true }, // Exemplo selecionado
+  { val: '16:00', available: true, active: true },
   { val: '16:30', available: true, active: false },
   { val: '17:00', available: true, active: false },
   { val: '17:30', available: false, active: false },
@@ -115,14 +118,15 @@ const times = [
 
 <style scoped>
 .dashboard-wrapper {
-  background: #F8FAFC;
+  background-color: #f4f9f9; /* Tom suave de ciano */
   min-height: 100vh;
 }
 
 .section-card {
   background: white;
-  border-radius: 16px;
-  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 .avatar-large {
@@ -136,8 +140,9 @@ const times = [
   font-weight: bold;
 }
 
-.bg-blue-soft { background: #EBF5FF; color: #3182CE; }
-.text-info-custom { color: #00A09D; }
+.bg-cyan-soft { background-color: #DFF2F0; }
+.text-blue-deep { color: #0468BF; }
+.text-azure { color: #03A1E0; }
 .max-w-600 { max-width: 600px; }
 
 .calendar-grid {
@@ -149,8 +154,8 @@ const times = [
 
 .day-label {
   font-size: 0.8rem;
-  color: #94A3B8;
-  font-weight: 500;
+  color: #64748B;
+  font-weight: 600;
   padding-bottom: 10px;
 }
 
@@ -159,18 +164,20 @@ const times = [
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s;
+  color: #334155;
 }
 
 .day-number:hover:not(.disabled):not(.empty) {
-  background: #f1f5f9;
+  background-color: #98DEF8;
+  color: #0060B4;
 }
 
 .day-number.active {
-  background: #0081B4;
+  background-color: #0468BF;
   color: white;
   font-weight: bold;
 }
@@ -181,30 +188,36 @@ const times = [
 }
 
 .time-slot {
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
   background: white;
   font-size: 0.85rem;
-  font-weight: 500;
-  padding: 10px;
-  border-radius: 8px;
-  color: #1a202c;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 10px;
+  color: #475569;
+  transition: all 0.2s;
+}
+
+.time-slot:hover:not(.disabled):not(.selected) {
+  border-color: #03A1E0;
+  background-color: #f0faff;
 }
 
 .time-slot.selected {
-  background: #EBF5FF;
-  border-color: #0081B4;
-  color: #0081B4;
+  background-color: #DFF2F0;
+  border-color: #0468BF;
+  color: #0468BF;
 }
 
 .time-slot.disabled {
-  background: #F8FAFC;
+  background-color: #f8fafc;
   color: #CBD5E0;
-  border-color: #EDF2F7;
+  border-color: #f1f5f9;
   cursor: not-allowed;
 }
 
 .btn-icon-sm {
-  background: #F1F5F9;
+  background-color: #DFF2F0;
   border: none;
   width: 32px;
   height: 32px;
@@ -212,7 +225,7 @@ const times = [
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  color: #0468BF;
 }
 
 .btn-back {
@@ -220,11 +233,22 @@ const times = [
   background: none;
   padding: 0;
   font-size: 0.9rem;
+  color: #03A1E0;
+  transition: color 0.2s;
+}
+
+.btn-back:hover {
+  color: #0060B4;
 }
 
 .btn-primary-custom {
-  background-color: #00A09D;
+  background-color: #0468BF;
   border: none;
   color: white;
+  transition: background-color 0.2s;
+}
+
+.btn-primary-custom:hover {
+  background-color: #0060B4;
 }
 </style>
