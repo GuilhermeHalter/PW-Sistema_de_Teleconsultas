@@ -18,10 +18,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from teleconsulta.views.usuario import UsuarioViewSet 
+from teleconsulta.views.paciente import PacienteViewSet
+
 
 router = DefaultRouter()
 router.register(r'usuarios', UsuarioViewSet, basename='usuario')
+router.register(r'pacientes', PacienteViewSet, basename='paciente')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
