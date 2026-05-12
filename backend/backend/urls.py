@@ -21,11 +21,15 @@ from rest_framework.routers import DefaultRouter
 
 from teleconsulta.views.usuario import UsuarioViewSet 
 from teleconsulta.views.paciente import PacienteViewSet
+from teleconsulta.views.especialidade import EspecialidadeViewSet
+from teleconsulta.views.medico import MedicoViewSet
 
 
 router = DefaultRouter()
 router.register(r'usuarios', UsuarioViewSet, basename='usuario')
 router.register(r'pacientes', PacienteViewSet, basename='paciente')
+router.register(r'especialidades', EspecialidadeViewSet, basename='especialidade')
+router.register(r'medicos', MedicoViewSet, basename='medico')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
