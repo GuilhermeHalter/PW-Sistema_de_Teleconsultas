@@ -19,6 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 from teleconsulta.views.usuario import UsuarioViewSet 
 from teleconsulta.views.paciente import PacienteViewSet
 from teleconsulta.views.especialidade import EspecialidadeViewSet
@@ -34,4 +39,6 @@ router.register(r'medicos', MedicoViewSet, basename='medico')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
