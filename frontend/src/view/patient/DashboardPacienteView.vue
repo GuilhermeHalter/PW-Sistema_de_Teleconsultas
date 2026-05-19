@@ -8,10 +8,6 @@
           <h3 class="fw-bold mb-1 text-dark">Olá, Maria!</h3>
           <p class="text-muted">Bem-vinda ao seu painel de teleconsultas</p>
         </div>
-        <!-- Botão com o Azul de Destaque -->
-        <button class="btn btn-primary-custom px-4 py-2 rounded-3 fw-bold shadow-sm">
-          <i class="bi bi-plus-lg me-1"></i> Agendar Nova Consulta
-        </button>
       </header>
 
       <div class="row g-3 mb-5">
