@@ -5,10 +5,10 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:f095400df67c24724f26547400f9445858364b9ee7c6733ef9308729c5c997d3"
+content_hash = "sha256:8569e056ef5a10bca80df9c1d1e6c80a8f1931e038feb64f0b7f37ded79bec87"
 
 [[metadata.targets]]
-requires_python = "==3.14.*"
+requires_python = ">=3.12,<3.14"
 
 [[package]]
 name = "asgiref"
