@@ -91,7 +91,6 @@ onMounted(() => {
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
-/* Variáveis de escopo unificadas com a paleta padrão */
 :host {
   --primary-blue: #0468BF;
   --dark-blue: #0060B4;
@@ -103,7 +102,7 @@ onMounted(() => {
 .sidebar {
   width: 260px;
   height: 100vh;
-  background-color: #DFF2F0; /* Cor de fundo igual à do paciente */
+  background-color: #DFF2F0; 
   border-right: 1px solid #c5e5e2;
   position: sticky;
   top: 0;
@@ -113,7 +112,7 @@ onMounted(() => {
   width: 38px;
   height: 38px;
   font-size: 1.2rem;
-  background-color: #0060B4; /* Azul Escuro */
+  background-color: #0060B4; 
 }
 
 .nav-link {
@@ -124,12 +123,12 @@ onMounted(() => {
 }
 
 .nav-link i {
-  color: #03A1E0; /* Ícones em azul céu */
+  color: #03A1E0; 
   font-size: 1.2rem;
 }
 
 .nav-link.active {
-  background-color: #0468BF !important; /* Azul de Destaque */
+  background-color: #0468BF !important; 
   color: #ffffff !important;
 }
 
@@ -138,7 +137,7 @@ onMounted(() => {
 }
 
 .nav-link:hover:not(.active) {
-  background-color: #98DEF8; /* Hover Azul Claro */
+  background-color: #98DEF8;
   color: #0060B4;
 }
 

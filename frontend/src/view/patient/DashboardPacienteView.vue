@@ -11,7 +11,6 @@
       </header>
 
       <div class="row g-3 mb-5">
-        <!-- Stat Card: Próximas -->
         <div class="col-md-3">
           <div class="stat-card blue-theme d-flex align-items-center gap-3">
             <div class="icon-box"><i class="bi bi-calendar-check"></i></div>
@@ -21,7 +20,6 @@
             </div>
           </div>
         </div>
-        <!-- Stat Card: Realizadas -->
         <div class="col-md-3">
           <div class="stat-card cyan-theme d-flex align-items-center gap-3">
             <div class="icon-box"><i class="bi bi-clock"></i></div>
@@ -31,7 +29,6 @@
             </div>
           </div>
         </div>
-        <!-- Stat Card: Tempo -->
         <div class="col-md-3">
           <div class="stat-card default-theme d-flex align-items-center gap-3">
             <div class="icon-box"><i class="bi bi-camera-video"></i></div>
@@ -41,7 +38,6 @@
             </div>
           </div>
         </div>
-        <!-- Stat Card: Avaliação -->
         <div class="col-md-3">
           <div class="stat-card default-theme d-flex align-items-center gap-3">
             <div class="icon-box"><i class="bi bi-star"></i></div>
@@ -54,7 +50,6 @@
       </div>
 
       <div class="row g-4">
-        <!-- Próximas Consultas -->
         <div class="col-lg-8">
           <div class="section-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -94,7 +89,6 @@
           </div>
         </div>
 
-        <!-- Notificações -->
         <div class="col-lg-4">
           <div class="section-card p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -115,7 +109,6 @@
           </div>
         </div>
 
-        <!-- Consultas Passadas -->
         <div class="col-12 mt-2">
           <div class="section-card p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
