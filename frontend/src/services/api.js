@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // DEFINA A URL DO SEU BACKEND DJANGO AQUI
-const BACKEND_URL = 'http://127.0.0.1:8000';
+const BACKEND_URL = 'https://pw-sistema-de-teleconsultas.onrender.com';
 
 const http = axios.create({
   // Mudamos de '/api' relativo para a URL absoluta do seu Django
