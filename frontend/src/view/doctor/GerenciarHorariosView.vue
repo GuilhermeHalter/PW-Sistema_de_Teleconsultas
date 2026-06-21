@@ -120,7 +120,9 @@
                 <span 
                   v-if="slot.disponivel" 
                   class="badge-delete shadow-sm"
-                  @click.stop="excluirHorario(slot.id)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalConfirmarExclusao"
+                  @click.stop="prepararExclusao(slot)"
                 >
                   <i class="bi bi-x-circle-fill text-danger"></i>
                 </span>
@@ -170,6 +172,36 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="modalConfirmarExclusao" tabindex="-1" aria-labelledby="modalConfirmarExclusaoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow rounded-4 text-center">
+          <div class="modal-body pt-4 pb-3">
+            <div class="text-danger mb-3">
+              <i class="bi bi-exclamation-triangle-fill fs-1"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-2">Excluir Horário?</h5>
+            <p class="text-muted small px-2">
+              Tem certeza que deseja remover o slot do dia 
+              <strong v-if="slotParaExcluir">{{ formatarDataSlotExclusao }}</strong> 
+              das 
+              <strong v-if="slotParaExcluir">{{ formatarHora(slotParaExcluir.data_hora_inicio) }} às {{ formatarHora(slotParaExcluir.data_hora_fim) }}</strong>?
+            </p>
+            <div v-if="erroExclusao" class="alert alert-danger py-1 small mt-2 mb-0">{{ erroExclusao }}</div>
+          </div>
+          <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4 pt-0">
+            <button type="button" class="btn btn-light rounded-3 fw-bold px-3 py-2 text-muted small" data-bs-dismiss="modal" id="fecharModalExcluirBtn">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger rounded-3 fw-bold px-3 py-2 small d-flex align-items-center gap-2" @click="confirmarExclusao" :disabled="excluindo">
+              <span v-if="excluindo" class="spinner-border spinner-border-sm"></span>
+              <span v-else><i class="bi bi-trash3"></i> Excluir</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -180,17 +212,19 @@ import { horarioService } from '../../services/api.js'
 
 const loading = ref(true)
 const salvando = ref(false)
+const excluindo = ref(false)
 const horarios = ref([])
 const erroForm = ref('')
+const erroExclusao = ref('')
 const sucessoForm = ref(false)
 
-const duracaoSelecionada = ref(30) // Valor padrão inicial em minutos
-const novoHorario = ref({ inicio: '' }) // Removemos o 'fim' manual
+const duracaoSelecionada = ref(30) 
+const novoHorario = ref({ inicio: '' }) 
+const slotParaExcluir = ref(null)
 
 const dataAtualCalendario = ref(new Date()) 
 const diaSelecionado = ref(new Date().getDate())
 
-// Converte strings do Django sem distorcer o fuso horário
 const obterDataValida = (stringISO) => {
   if (!stringISO) return null
   if (stringISO.includes('T')) {
@@ -202,7 +236,6 @@ const obterDataValida = (stringISO) => {
   return new Date(stringISO)
 }
 
-// Calcula dinamicamente o fim baseado no input inicial + tempo de select
 const dataFimCalculada = computed(() => {
   if (!novoHorario.value.inicio) return null
   const dataInicio = new Date(novoHorario.value.inicio)
@@ -238,6 +271,12 @@ const formatarDataExibicao = computed(() => {
   const mes = dataAtualCalendario.value.getMonth()
   const dataCompleta = new Date(ano, mes, diaSelecionado.value)
   return dataCompleta.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
+})
+
+const formatarDataSlotExclusao = computed(() => {
+  if (!slotParaExcluir.value) return ''
+  const d = obterDataValida(slotParaExcluir.value.data_hora_inicio)
+  return d ? d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : ''
 })
 
 const totalDisponiveis = computed(() => horarios.value.filter(h => h.disponivel).length)
@@ -301,7 +340,6 @@ const carregarHorarios = async () => {
   }
 }
 
-// MOTOR DE CRITICIDADE DE AGENDAMENTO (VALIDAÇÃO DE CONFLITO/SOBREPOSIÇÃO)
 const adicionarHorario = async () => {
   erroForm.value = ''
   sucessoForm.value = false
@@ -314,19 +352,15 @@ const adicionarHorario = async () => {
   const novaDataInicio = new Date(novoHorario.value.inicio)
   const novaDataFim = dataFimCalculada.value
 
-  // Impede retroatividades desnecessárias
   if (novaDataInicio < new Date()) {
     erroForm.value = 'Você não pode criar um slot em um horário que já passou.'
     return
   }
 
-  // Loop de Verificação de Integridade da Agenda
   for (const existente of horarios.value) {
     const inicioExistente = new Date(existente.data_hora_inicio)
     const fimExistente = new Date(existente.data_hora_fim)
 
-    // Regra 1 e 2 unificadas matematicamente: sobreposição de períodos
-    // Um intervalo intercepta outro se (InícioA < FimB) E (FimA > InícioB)
     if (novaDataInicio < fimExistente && novaDataFim > inicioExistente) {
       erroForm.value = `Conflito de agenda! Esse horário choca com o slot já configurado das ${formatarHora(existente.data_hora_inicio)} às ${formatarHora(existente.data_hora_fim)}.`
       return
@@ -335,7 +369,6 @@ const adicionarHorario = async () => {
 
   salvando.value = true
   try {
-    // Converte para string ISO aceitável pelo Django mantendo precisão local literal
     const offset = novaDataInicio.getTimezoneOffset() * 60000
     const isoInicioLocal = new Date(novaDataInicio.getTime() - offset).toISOString().slice(0, -1)
     const isoFimLocal = new Date(novaDataFim.getTime() - offset).toISOString().slice(0, -1)
@@ -362,13 +395,30 @@ const adicionarHorario = async () => {
   }
 }
 
-const excluirHorario = async (id) => {
-  if (!confirm('Deseja excluir este slot de horário?')) return
+// Guarda as informações do slot que será deletado e limpa erros antigos
+const prepararExclusao = (slot) => {
+  erroExclusao.value = ''
+  slotParaExcluir.value = slot
+}
+
+// Executa a chamada assíncrona de deleção da API de forma segura
+const confirmarExclusao = async () => {
+  if (!slotParaExcluir.value) return
+  
+  excluindo.value = true
+  erroExclusao.value = ''
   try {
-    await horarioService.excluir(id)
+    await horarioService.excluir(slotParaExcluir.value.id)
     await carregarHorarios()
+    
+    // Fecha o modal via gatilho nativo do Bootstrap após o sucesso
+    const fecharBtn = document.getElementById('fecharModalExcluirBtn')
+    if (fecharBtn) fecharBtn.click()
+    slotParaExcluir.value = null
   } catch (e) {
-    alert('Erro ao excluir horário selecionado.')
+    erroExclusao.value = 'Erro ao excluir o horário selecionado.'
+  } finally {
+    excluindo.value = false
   }
 }
 
@@ -376,7 +426,6 @@ onMounted(carregarHorarios)
 </script>
 
 <style scoped>
-/* Mantidos seus estilos organizados por classe do Bootstrap e customizações css */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 .dashboard-wrapper { background-color: #f0f7f7; min-height: 100vh; font-family: 'Inter', sans-serif; }
 .stat-card { border-radius: 16px; border: 1px solid #e2e8f0; }
@@ -390,7 +439,7 @@ onMounted(carregarHorarios)
 .day.active { background-color: #0468BF; color: white; font-weight: bold; box-shadow: 0 4px 8px rgba(4, 104, 191, 0.3); }
 .day.has-slots::after { content: ''; position: absolute; bottom: 5px; width: 4px; height: 4px; background-color: #0468BF; border-radius: 50%; }
 .day.active.has-slots::after { background-color: white; }
-.slots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } /* Ajustado colunas para caber início - fim */
+.slots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .slot-item { padding: 10px; text-align: center; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
 .slot-item.active { background-color: #e6f6f4; border: 1px solid #2ec4b6; color: #2e7d32; }
 .slot-item.reservado { background-color: #fef9f0; border: 1px solid #fde8c3; color: #f57c00; cursor: not-allowed; }

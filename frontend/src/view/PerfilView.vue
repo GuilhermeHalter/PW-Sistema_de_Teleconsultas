@@ -49,24 +49,6 @@
                 <input v-model="user.email" class="form-control-custom has-icon" />
               </div>
             </div>
-            <div class="col-md-6">
-              <label class="form-label">Telefone</label>
-              <div class="input-container">
-                <i class="bi bi-telephone icon-input"></i>
-                <input v-model="user.telefone" class="form-control-custom has-icon" placeholder="(00) 00000-0000" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Data de Nascimento</label>
-              <input type="date" v-model="user.dataNascimento" class="form-control-custom" />
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Endereço</label>
-              <div class="input-container">
-                <i class="bi bi-geo-alt icon-input"></i>
-                <input v-model="user.endereco" class="form-control-custom has-icon" placeholder="Cidade, Estado" />
-              </div>
-            </div>
           </div>
         </div>
 

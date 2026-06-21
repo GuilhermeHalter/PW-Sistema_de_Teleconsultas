@@ -8,7 +8,6 @@
         <p class="text-muted">Escolha um especialista e agende sua teleconsulta</p>
       </div>
 
-      <!-- Barra de Busca e Filtros -->
       <div class="d-flex gap-3 mb-4 align-items-center">
         <div class="flex-grow-1 position-relative">
           <i class="bi bi-search search-icon"></i>
@@ -16,68 +15,88 @@
             type="text"
             class="form-control custom-input ps-5 py-2"
             placeholder="Buscar por nome ou especialidade..."
+            v-model="busca"
           />
         </div>
 
         <div class="d-flex gap-2">
            <button class="btn btn-filter"><i class="bi bi-filter"></i></button>
-           <select class="form-select custom-select">
-            <option>Todas as especialidades</option>
-            <option>Cardiologista</option>
-            <option>Dermatologista</option>
-            <option>Pediatra</option>
+           <select class="form-select custom-select" v-model="especialidadeSelecionada">
+            <option value="">Todas as especialidades</option>
+            <option v-for="esp in listaEspecialidades" :key="esp" :value="esp">
+              {{ esp }}
+            </option>
           </select>
         </div>
       </div>
 
-      <p class="text-muted small mb-3">{{ doctors.length }} médico(s) encontrado(s)</p>
+      <div v-if="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-2">Carregando médicos...</p>
+      </div>
 
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4" v-for="doc in doctors" :key="doc.name">
-          <div class="doctor-card h-100 shadow-sm">
-            <div class="p-4 d-flex gap-3 align-items-start position-relative">
-              <!-- Avatar com cores da paleta -->
-              <div class="avatar-circle" :class="doc.available ? 'bg-cyan-light text-blue-deep' : 'bg-gray-light text-muted'">
-                {{ doc.initials }}
-              </div>
+      <div v-else>
+        <p class="text-muted small mb-3">{{ medicosFiltrados.length }} médico(s) encontrado(s)</p>
 
-              <div class="flex-grow-1">
-                <h6 class="fw-bold mb-0 text-dark">{{ doc.name }}</h6>
-                <div class="text-azure fw-medium small">{{ doc.specialty }}</div>
+        <div v-if="medicosFiltrados.length === 0" class="text-center py-5 text-muted">
+          <i class="bi bi-person-x fs-1 d-block mb-2"></i>
+          Nenhum médico encontrado para os critérios selecionados.
+        </div>
 
-                <div class="small mt-1">
-                  <span class="text-warning"><i class="bi bi-star-fill"></i> {{ doc.rating }}</span>
-                  <span class="text-muted ms-1">({{ doc.reviews }} avaliações)</span>
+        <div v-else class="row g-4">
+          <div class="col-md-6 col-lg-4" v-for="doc in medicosFiltrados" :key="doc.id">
+            <div class="doctor-card h-100 shadow-sm">
+              <div class="p-4 d-flex gap-3 align-items-start position-relative">
+                
+                <div class="avatar-circle" :class="doc.disponivel !== false ? 'bg-cyan-light text-blue-deep' : 'bg-gray-light text-muted'">
+                  {{ getInitials(doc.nomeCompleto) }}
                 </div>
 
-                <div class="small text-muted mt-2">
-                  <i class="bi bi-geo-alt"></i> {{ doc.city }}
+                <div class="flex-grow-1">
+                  <h6 class="fw-bold mb-0 text-dark">{{ doc.nomeCompleto }}</h6>
+                  <div class="text-azure fw-medium small">
+                    {{ doc.especialidades_detalhes?.map(e => e.nome).join(', ') || 'Clínica Geral' }}
+                  </div>
+
+                  <div class="small mt-1">
+                    <span class="text-warning"><i class="bi bi-star-fill"></i> {{ doc.rating || '4.8' }}</span>
+                    <span class="text-muted ms-1">({{ doc.reviews || '94' }} avaliações)</span>
+                  </div>
+
+                  <div class="small text-muted mt-2">
+                    <i class="bi bi-geo-alt"></i> {{ doc.cidade || 'Telemedicina' }}
+                  </div>
+
+                  <div class="small text-muted mt-1">
+                    {{ doc.experiencia || '10' }} anos de experiência
+                  </div>
+                  
+                  <div class="small text-muted mt-1">CRM: {{ doc.crm }}</div>
                 </div>
 
-                <div class="small text-muted mt-1">
-                  {{ doc.exp }} anos de experiência
+                <span 
+                  class="badge status-badge"
+                  :class="doc.disponivel !== false ? 'badge-available' : 'badge-unavailable'"
+                >
+                  {{ doc.disponivel !== false ? 'Disponível' : 'Indisponível' }}
+                </span>
+              </div>
+
+              <div class="card-footer-custom d-flex justify-content-between align-items-center p-4">
+                <div>
+                  <div class="text-muted x-small">Consulta online</div>
+                  <div class="fw-bold price-text">
+                    {{ doc.preco ? `R$ ${doc.preco}` : 'Online' }}
+                  </div>
                 </div>
+
+                <router-link 
+                  :to="{ name: 'horarios-consulta', query: { medicoId: doc.id, medicoNome: doc.nomeCompleto } }" 
+                  class="btn btn-action btn-sm px-3 py-2 d-flex align-items-center gap-2 text-decoration-none"
+                >
+                  <i class="bi bi-calendar-event-fill"></i> Agendar
+                </router-link>
               </div>
-
-              <!-- Badge de Disponibilidade -->
-              <span 
-                class="badge status-badge"
-                :class="doc.available ? 'badge-available' : 'badge-unavailable'"
-              >
-                {{ doc.available ? 'Disponível' : 'Indisponível' }}
-              </span>
-            </div>
-
-            <!-- Rodapé do Card com Preço e Botão -->
-            <div class="card-footer-custom d-flex justify-content-between align-items-center p-4">
-              <div>
-                <div class="text-muted x-small">Consulta a partir de</div>
-                <div class="fw-bold price-text">R$ {{ doc.price }}</div>
-              </div>
-
-              <router-link to="/horarios-consulta" class="btn btn-action btn-sm px-3 py-2 d-flex align-items-center gap-2 text-decoration-none">
-                <i class="bi bi-calendar-event-fill"></i> Agendar
-              </router-link>
             </div>
           </div>
         </div>
@@ -87,23 +106,62 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue'
 import SidebarPatientComp from '../../components/patient/SidebarPatientComp.vue'
+import { medicoService } from '../../services/api.js'
 
-const doctors = [
-  { name: 'Dr. Carlos Mendes', specialty: 'Cardiologista', rating: 4.9, reviews: 127, city: 'São Paulo, SP', exp: 15, price: '250.00', initials: 'DC', available: true },
-  { name: 'Dra. Ana Beatriz', specialty: 'Dermatologista', rating: 4.8, reviews: 98, city: 'Rio de Janeiro, RJ', exp: 12, price: '200.00', initials: 'DA', available: true },
-  { name: 'Dr. Paulo Roberto', specialty: 'Clínico Geral', rating: 4.7, reviews: 215, city: 'Belo Horizonte, MG', exp: 20, price: '150.00', initials: 'DP', available: true },
-  { name: 'Dra. Fernanda Lima', specialty: 'Nutricionista', rating: 4.9, reviews: 76, city: 'Curitiba, PR', exp: 8, price: '180.00', initials: 'DF', available: false },
-  { name: 'Dr. Ricardo Santos', specialty: 'Psiquiatra', rating: 4.8, reviews: 142, city: 'Porto Alegre, RS', exp: 18, price: '300.00', initials: 'DR', available: true },
-  { name: 'Dra. Mariana Costa', specialty: 'Pediatra', rating: 5, reviews: 189, city: 'Salvador, BA', exp: 10, price: '180.00', initials: 'DM', available: true }
-]
+const loading = ref(true)
+const medicos = ref([])
+const busca = ref('')
+const especialidadeSelecionada = ref('')
+
+// Mapeamento dinâmico de especialidades vindas do banco para alimentar o select do 1º código
+const listaEspecialidades = computed(() => {
+  const espSet = new Set()
+  medicos.value.forEach(m => {
+    m.especialidades_detalhes?.forEach(e => {
+      if (e.nome) espSet.add(e.nome)
+    })
+  })
+  return Array.from(espSet).sort()
+})
+
+// Motor de filtro integrado combinando Input Text e Select Box
+const medicosFiltrados = computed(() => {
+  return medicos.value.filter(m => {
+    const correspondeBusca = !busca.value || 
+      m.nomeCompleto?.toLowerCase().includes(busca.value.toLowerCase()) ||
+      m.especialidades_detalhes?.some(e => e.nome?.toLowerCase().includes(busca.value.toLowerCase()))
+
+    const correspondeEspecialidade = !especialidadeSelecionada.value ||
+      m.especialidades_detalhes?.some(e => e.nome === especialidadeSelecionada.value)
+
+    return correspondeBusca && correspondeEspecialidade
+  })
+})
+
+const getInitials = (nome) => {
+  if (!nome) return '?'
+  return nome.split(' ').filter(n => n.length > 0).slice(0, 2).map(n => n[0]).join('')
+}
+
+onMounted(async () => {
+  try {
+    const res = await medicoService.listar()
+    medicos.value = Array.isArray(res.data) ? res.data : (res.data?.dados || [])
+  } catch (e) {
+    console.error('Erro ao buscar lista de médicos da API:', e)
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <style scoped>
-/* Cores da Paleta: #98DEF8, #0468BF, #0060B4, #03A1E0, #DFF2F0 */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
 .dashboard-wrapper {
-  background-color: #f4f9f9; /* Variação do #DFF2F0 */
+  background-color: #f4f9f9;
   min-height: 100vh;
 }
 
@@ -216,7 +274,6 @@ const doctors = [
 
 .btn-action:hover {
   background-color: #0060B4;
-  transform: scale(1.05);
   color: white;
 }
 </style>

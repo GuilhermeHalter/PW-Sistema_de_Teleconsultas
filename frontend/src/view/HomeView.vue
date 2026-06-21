@@ -1,12 +1,12 @@
 <template>
   <div class="container-fluid p-0 wrapper">
-    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 px-4">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 px-4 sticky-top">
       <div class="container">
-        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
+        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#" @click.prevent="scrollToTop">
           <div class="logo-t text-white bg-primary-custom d-flex align-items-center justify-content-center rounded">
             T
           </div>
-          <span class="text-dark fs-5">Teleconsulta</span>
+          <span class="text-dark fs-5">MedConnect</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
           <span class="navbar-toggler-icon"></span>
@@ -14,23 +14,19 @@
 
         <div class="collapse navbar-collapse justify-content-between" id="nav">
           <ul class="navbar-nav mx-auto gap-3">
-            <li class="nav-item"><a class="nav-link text-dark fw-medium" href="#">Início</a></li>
-            <li class="nav-item"><a class="nav-link text-muted" href="#">Como Funciona</a></li>
-            <li class="nav-item"><a class="nav-link text-muted" href="#">Serviços</a></li>
-            <li class="nav-item"><a class="nav-link text-muted" href="#">Contato</a></li>
+            <li class="nav-item"><a class="nav-link text-dark fw-medium" href="#" @click.prevent="scrollToTop">Início</a></li>
+            <li class="nav-item"><a class="nav-link text-muted" href="#como-funciona" @click.prevent="scrollToSection('como-funciona')">Como Funciona</a></li>
+            <li class="nav-item"><a class="nav-link text-muted" href="#servicos" @click.prevent="scrollToSection('servicos')">Serviços</a></li>
+            <li class="nav-item"><a class="nav-link text-muted" href="#" @click.prevent="abrirSuporte">Contato</a></li>
           </ul>
           <div class="d-flex align-items-center gap-3">
-  <router-link 
-    to="/login" 
-    class="text-dark text-decoration-none fw-medium"
-  >
-    Entrar
-  </router-link>
-
-  <button class="btn btn-primary-custom rounded-pill px-4 py-2 fw-medium shadow-sm">
-    Agendar Consulta
-  </button>
-</div>
+            <router-link to="/login" class="text-dark text-decoration-none fw-medium">
+              Entrar
+            </router-link>
+            <button @click="irParaAgendamento" class="btn btn-primary-custom rounded-pill px-4 py-2 fw-medium shadow-sm">
+              Agendar Consulta
+            </button>
+          </div>
         </div>
       </div>
     </nav>
@@ -54,10 +50,10 @@
           </p>
 
           <div class="d-flex align-items-center gap-3 mb-5">
-            <button class="btn btn-primary-custom rounded-pill px-4 py-3 fw-medium d-flex align-items-center gap-2">
+            <button @click="irParaAgendamento" class="btn btn-primary-custom rounded-pill px-4 py-3 fw-medium d-flex align-items-center gap-2">
               Comece Agora <i class="bi bi-arrow-right"></i>
             </button>
-            <button class="btn btn-outline-secondary rounded-pill px-4 py-3 fw-medium border-light-subtle text-dark d-flex align-items-center gap-2 shadow-sm bg-white">
+            <button @click="scrollToSection('como-funciona')" class="btn btn-outline-secondary rounded-pill px-4 py-3 fw-medium border-light-subtle text-dark d-flex align-items-center gap-2 shadow-sm bg-white">
               <i class="bi bi-play-circle text-muted fs-5"></i> Como Funciona
             </button>
           </div>
@@ -106,10 +102,10 @@
       </div>
     </section>
 
-    <section class="container py-5 my-5">
+    <section id="como-funciona" class="container py-5 my-5">
       <div class="mb-5">
         <small class="text-primary-custom fw-bold text-uppercase tracking-wide">Como Funciona</small>
-        <h2 class="font-serif fw-bold text-dark mt-2 display-6 w-50">Atendimento médico simplificado para sua vida</h2>
+        <h2 class="font-serif fw-bold text-dark mt-2 display-6 w-100 w-md-50">Atendimento médico simplificado para sua vida</h2>
       </div>
 
       <div class="row g-4 mt-2">
@@ -126,20 +122,20 @@
       </div>
     </section>
 
-    <section class="container py-5 my-5">
-      <div class="d-flex justify-content-between align-items-end mb-5">
+    <section id="servicos" class="container py-5 my-5">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-5 gap-3">
         <div>
           <small class="text-primary-custom fw-bold text-uppercase tracking-wide">Especialidades</small>
           <h2 class="font-serif fw-bold text-dark mt-2 display-6">Encontre o especialista ideal para você</h2>
         </div>
-        <button class="btn btn-outline-secondary bg-white border-light-subtle rounded-pill px-4 py-2 text-dark shadow-sm fw-medium d-flex align-items-center gap-2">
+        <button @click="irParaAgendamento" class="btn btn-outline-secondary bg-white border-light-subtle rounded-pill px-4 py-2 text-dark shadow-sm fw-medium d-flex align-items-center gap-2">
           Ver todas as especialidades <i class="bi bi-arrow-up-right text-muted"></i>
         </button>
       </div>
 
       <div class="row g-4">
         <div class="col-md-4" v-for="s in services" :key="s.title">
-          <div class="card h-100 shadow-sm border-0 rounded-4 p-2 specialty-card cursor-pointer">
+          <div @click="selecionarEspecialidade(s.title)" class="card h-100 shadow-sm border-0 rounded-4 p-2 specialty-card cursor-pointer">
             <div class="card-body d-flex flex-column">
               <div class="d-flex justify-content-between align-items-start mb-3">
                 <h5 class="card-title fw-bold text-dark mb-0">{{ s.title }}</h5>
@@ -162,11 +158,11 @@
         <div class="py-4">
           <h2 class="font-serif fw-bold mb-3 display-4">Pronto para cuidar<br>da sua saúde?</h2>
           <p class="text-light mb-5 fs-5 text-opacity-75">Comece agora mesmo sua jornada de cuidado com a saúde. Agende sua<br>primeira consulta em menos de 2 minutos.</p>
-          <div class="d-flex justify-content-center gap-3">
-            <button class="btn bg-white text-dark rounded-pill px-4 py-3 fw-bold d-flex align-items-center gap-2 shadow">
+          <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+            <button @click="irParaAgendamento" class="btn bg-white text-dark rounded-pill px-4 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 shadow">
               Agendar Consulta Agora <i class="bi bi-arrow-right"></i>
             </button>
-            <button class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold border-2 opacity-75 hover-opacity-100">
+            <button @click="abrirSuporte" class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold border-2 opacity-75 hover-opacity-100">
               Falar com Atendente
             </button>
           </div>
@@ -177,6 +173,42 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+// Direcionamentos de Fluxo
+const irParaAgendamento = () => {
+  // Redireciona para o cadastro para iniciar o agendamento
+  router.push('/cadastro')
+}
+
+const selecionarEspecialidade = (especialidade) => {
+  console.log(`Filtro guardado: ${especialidade}`)
+  // Guarda temporariamente no localStorage caso queira pré-selecionar após o cadastro/login
+  localStorage.setItem('selected_specialty', especialidade)
+  router.push('/cadastro')
+}
+
+// Navegação Interna Dinâmica (Smooth Scroll)
+const scrollToSection = (id) => {
+  const element = document.getElementById(id)
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+}
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// Simulação de Suporte/Contato
+const abrirSuporte = () => {
+  // Simulação de abertura do canal de comunicação (WhatsApp Exemplo)
+  const telefoneSuporte = '5500999999999'
+  const mensagem = encodeURIComponent('Olá! Gostaria de tirar dúvidas sobre o agendamento de teleconsultas.')
+  window.open(`https://api.whatsapp.com/send?phone=${telefoneSuporte}&text=${mensagem}`, '_blank')
+}
 
 const services = [
   { title: 'Clínico Geral', desc: 'Consultas para avaliação de saúde geral, orientações e encaminhamentos.', price: 'R$ 89' },
@@ -223,6 +255,7 @@ body {
 }
 .btn-primary-custom:hover {
   background-color: #005f92;
+  border-color: #005f92;
   color: #fff;
 }
 
@@ -249,6 +282,12 @@ body {
   font-size: 4rem;
   line-height: 1.1;
   letter-spacing: -1px;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
 }
 
 .hero-img {

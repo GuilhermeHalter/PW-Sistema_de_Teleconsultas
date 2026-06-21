@@ -2,7 +2,7 @@
   <aside class="sidebar d-flex flex-column p-3">
     <div class="brand d-flex align-items-center gap-2 mb-5 px-2">
       <div class="logo-icon text-white rounded-circle d-flex align-items-center justify-content-center">
-        <i class="bi bi-stethoscope"></i>
+        <i class="bi bi-stethoscope">T</i>
       </div>
       <div class="brand-text">
         <h6 class="mb-0 fw-bold text-dark">MedConnect</h6>
