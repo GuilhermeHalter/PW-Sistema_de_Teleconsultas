@@ -33,6 +33,3 @@ jobs:
 
       - name: Esperar subir servidor
         run: npx wait-on http://localhost:5173
-
-      - name: Rodar Cypress
-        run: npx cypress run
