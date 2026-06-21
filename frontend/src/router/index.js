@@ -21,6 +21,7 @@ import MinhaAgendaView from '../view/doctor/MinhaAgendaView.vue'
 import AdminDashboardView from '../view/admin/AdminDashboardView.vue'
 import AdminMedicosView from '../view/admin/AdminMedicosView.vue'
 import AdminPacientesView from '../view/admin/AdminPacientesView.vue'
+import AdminEspecialidadesView from '../view/admin/AdminEspecialidadesView.vue'
 import AdminConsultasView from '../view/admin/AdminConsultasView.vue'
 import AdminHorariosView from '../view/admin/AdminHorariosView.vue'
 
@@ -52,6 +53,7 @@ const router = createRouter({
     { path: '/admin/dashboard', name: 'admin-dashboard', component: AdminDashboardView, meta: { requiresAuth: true, role: 'ADMIN' } },
     { path: '/admin/medicos', name: 'admin-medicos', component: AdminMedicosView, meta: { requiresAuth: true, role: 'ADMIN' } },
     { path: '/admin/pacientes', name: 'admin-pacientes', component: AdminPacientesView, meta: { requiresAuth: true, role: 'ADMIN' } },
+    { path: '/admin/especialidades', name: 'admin-especialidades', component: AdminEspecialidadesView, meta: { requiresAuth: true, role: 'ADMIN' } },
     { path: '/admin/consultas', name: 'admin-consultas', component: AdminConsultasView, meta: { requiresAuth: true, role: 'ADMIN' } },
     { path: '/admin/horarios', name: 'admin-horarios', component: AdminHorariosView, meta: { requiresAuth: true, role: 'ADMIN' } },
   ],

@@ -14,6 +14,9 @@
       <router-link to="/admin/dashboard" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
         <i class="bi bi-grid-fill"></i><span>Dashboard</span>
       </router-link>
+      <router-link to="/admin/especialidades" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
+        <i class="bi bi-stars"></i><span>Especialidades</span>
+      </router-link>
       <router-link to="/admin/medicos" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
         <i class="bi bi-heart-pulse"></i><span>Médicos</span>
       </router-link>
