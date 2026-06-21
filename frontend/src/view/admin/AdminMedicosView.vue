@@ -110,7 +110,7 @@
 <script setup>
 import { ref, computed, reactive, onMounted } from 'vue'
 import SidebarAdminComp from '../../components/admin/SidebarAdminComp.vue'
-import { medicoService } from '../../services/api.js'
+import { medicoService, especialidadeService } from '../../services/api.js'
 
 const loading = ref(true)
 const salvando = ref(false)
@@ -121,6 +121,7 @@ const editando = ref(null)
 const erroModal = ref('')
 
 const form = reactive({ nomeCompleto: '', crm: '', email: '', password: '', especialidades_ids: [] })
+const especialidades = ref([])
 
 const medicosFiltrados = computed(() => {
   if (!busca.value) return medicos.value
@@ -137,6 +138,13 @@ const carregarMedicos = async () => {
   finally { loading.value = false }
 }
 
+const carregarEspecialidades = async () => {
+  try {
+    const res = await especialidadeService.listar()
+    especialidades.value = res.data
+  } catch (e) { console.error(e) }
+}
+
 const abrirModal = (m = null) => {
   erroModal.value = ''
   editando.value = m
@@ -145,6 +153,7 @@ const abrirModal = (m = null) => {
     form.crm = m.crm
     form.email = m.email
     form.password = ''
+    form.especialidades_ids = (m.especialidades_detalhes || []).map(e => e.id)
   } else {
     Object.assign(form, { nomeCompleto: '', crm: '', email: '', password: '', especialidades_ids: [] })
   }
@@ -162,9 +171,9 @@ const salvar = async () => {
   salvando.value = true
   try {
     if (editando.value) {
-      await medicoService.atualizar(editando.value.id, { nomeCompleto: form.nomeCompleto, email: form.email })
+      await medicoService.atualizar(editando.value.id, { nomeCompleto: form.nomeCompleto, email: form.email, especialidades_ids: form.especialidades_ids })
     } else {
-      await medicoService.criar({ nomeCompleto: form.nomeCompleto, crm: form.crm, email: form.email, password: form.password, especialidades_ids: [] })
+      await medicoService.criar({ nomeCompleto: form.nomeCompleto, crm: form.crm, email: form.email, password: form.password, especialidades_ids: form.especialidades_ids })
     }
     fecharModal()
     await carregarMedicos()
@@ -180,6 +189,7 @@ const excluir = async (m) => {
 }
 
 onMounted(carregarMedicos)
+onMounted(carregarEspecialidades)
 </script>
 
 <style scoped>

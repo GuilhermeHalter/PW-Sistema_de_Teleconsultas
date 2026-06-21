@@ -85,6 +85,9 @@ export const consultaService = {
 
 export const especialidadeService = {
   listar: () => http.get('/especialidades/'),
+  criar: (data) => http.post('/especialidades/', data),
+  atualizar: (id, data) => http.patch(`/especialidades/${id}/`, data),
+  excluir: (id) => http.delete(`/especialidades/${id}/`),
 };
 
 export default http;
