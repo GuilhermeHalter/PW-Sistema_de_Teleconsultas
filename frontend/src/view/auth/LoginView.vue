@@ -115,7 +115,7 @@ const handleLogin = async () => {
   sucesso.value = false
   
   try {
-    const baseUrl = axios.defaults.baseURL || 'http://localhost:8000'
+    const baseUrl = axios.defaults.baseURL || 'https://pw-sistema-de-teleconsultas.onrender.com'
     
     // ETAPA 1: Autenticação para pegar os tokens de acesso
     const responseAuth = await axios.post(`${baseUrl}/api/token/`, {

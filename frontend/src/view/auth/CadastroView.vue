@@ -173,7 +173,7 @@ const handleRegister = async () => {
   sucesso.value = false
 
   try {
-    const response = await axios.post('http://localhost:8000/api/pacientes/', formData)
+    const response = await axios.post('https://pw-sistema-de-teleconsultas.onrender.com/api/pacientes/', formData)
 
     if (response.status === 201) {
       // Extrai apenas o primeiro nome para a mensagem elegante

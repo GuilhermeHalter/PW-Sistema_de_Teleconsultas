@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/pacientes/';
+const API_URL = 'https://pw-sistema-de-teleconsultas.onrender.com/api/pacientes/';
 
 // Configuração básica do Axios para incluir o token automaticamente
 const getAuthHeader = () => {
