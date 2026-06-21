@@ -6,27 +6,32 @@
       </div>
       <div class="brand-text">
         <h6 class="mb-0 fw-bold text-dark">MedConnect</h6>
-        <small class="text-muted" style="font-size: 0.75rem;">Teleconsulta</small>
+        <small class="text-muted" style="font-size: 0.75rem;">Portal Médico</small>
       </div>
     </div>
 
     <nav class="nav flex-column gap-2 flex-grow-1">
-      <router-link to="/dashboard-paciente" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
+      <router-link to="/dashboard-medico" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
         <i class="bi bi-grid-fill"></i>
         <span>Dashboard</span>
       </router-link>
 
-      <router-link to="/agendamento-consulta" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
+      <router-link to="/minha-agenda" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
         <i class="bi bi-calendar-event"></i>
-        <span>Agendar Consulta</span>
+        <span>Minha Agenda</span>
       </router-link>
 
-      <router-link to="/historico-consultas" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
+      <router-link to="/gerenciar-horarios" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
+        <i class="bi bi-calendar2-week"></i>
+        <span>Gerenciar Horários</span>
+      </router-link>
+
+      <router-link to="/lista-consultas" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
         <i class="bi bi-clock-history"></i>
         <span>Histórico de Consultas</span>
       </router-link>
 
-      <router-link to="/perfil" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
+      <router-link to="/perfil-medico" class="nav-link d-flex align-items-center gap-3 px-3 py-2 rounded-3" active-class="active">
         <i class="bi bi-person"></i>
         <span>Perfil</span>
       </router-link>
@@ -39,14 +44,15 @@
         </div>
         <div class="overflow-hidden">
           <p class="mb-0 fw-bold text-dark small text-truncate">
-            {{ nomeUsuario }}
+            Dr. {{ nomeMedico }}
           </p>
-          <small class="text-muted d-block" style="font-size: 0.7rem;">Paciente</small>
+          <small class="text-muted d-block" style="font-size: 0.7rem;">Médico</small>
         </div>
       </div>
       
-      <button class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" @click="logout">
-        <i class="bi bi-box-arrow-right"></i> Sair
+      <button class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" @click="handleLogout">
+        <i class="bi bi-box-arrow-right"></i> 
+        <span>Sair</span>
       </button>
     </div>
   </aside>
@@ -55,31 +61,34 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { pacienteService } from '../../services/api.js'
+import { medicoService } from '../../services/api.js'
 
 const router = useRouter()
 
-// Inicializa buscando do localStorage para evitar tela piscando em branco/padrão
-const nomeUsuario = ref(localStorage.getItem('user_name') || 'Carregando...')
+// Inicializa imediatamente com o cache do localStorage salvando tempo de tela piscando vazio
+const nomeMedico = ref(localStorage.getItem('user_name') || 'Médico')
 
-const logout = () => {
+const handleLogout = () => {
+  // Limpa os tokens e estados guardados
   localStorage.clear()
+  // Redireciona de volta para a tela de login pelo nome nominal da rota
   router.push({ name: 'login' })
 }
 
 onMounted(async () => {
   try {
-    // Consome seu serviço centralizado da API do Django
-    const res = await pacienteService.getMe()
-    nomeUsuario.value = res.data.nomeCompleto || nomeUsuario.value
+    // Faz a consulta assíncrona ao endpoint do médico atual
+    const res = await medicoService.getMe()
     
-    // Atualiza o cache local
-    localStorage.setItem('user_name', nomeUsuario.value)
-  } catch (error) {
-    console.error('Erro ao identificar o paciente logado:', error)
-    if (nomeUsuario.value === 'Carregando...') {
-      nomeUsuario.value = 'Convidado'
+    // Mapeia de forma inteligente protegendo a propriedade com a grafia exata do seu Django (NomeCompleto)
+    const nomeBackend = res.data.NomeCompleto || res.data.nomeCompleto || res.data.nome
+    
+    if (nomeBackend) {
+      nomeMedico.value = nomeBackend
+      localStorage.setItem('user_name', nomeBackend)
     }
+  } catch (error) {
+    console.error('Não foi possível atualizar os dados em tempo real do médico:', error)
   }
 })
 </script>

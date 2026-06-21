@@ -1,39 +1,32 @@
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from teleconsulta.models.paciente import Paciente
 from teleconsulta.serializers.paciente import PacienteSerializer
 
+
 class PacienteViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet para o CRUD de Paciente.
-    Filtra automaticamente apenas usuários que possuem perfil de Paciente.
-    """
     queryset = Paciente.objects.all()
     serializer_class = PacienteSerializer
 
-    @action(detail=False, methods=['get'], permission_classes=[permissions.IsAuthenticated])
-    def me(self, request):
-        """
-        Retorna os dados do paciente logado com base no Token JWT.
-        """
-        # O 'request.user' é preenchido automaticamente pelo Django via JWT
-        try:
-            paciente = Paciente.objects.get(id=request.user.id)
-            serializer = self.get_serializer(paciente)
-            return Response(serializer.data)
-        except Paciente.DoesNotExist:
-            return Response({"error": "Paciente não encontrado"}, status=404)
-
     def get_permissions(self):
-        # RN04: Permite cadastro público de pacientes (POST), mas exige login para o resto.
         if self.action == 'create':
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
 
+    @action(detail=False, methods=['get', 'patch'], permission_classes=[permissions.IsAuthenticated])
+    def me(self, request):
+        try:
+            paciente = Paciente.objects.get(id=request.user.id)
+        except Paciente.DoesNotExist:
+            return Response({"error": "Perfil de paciente não encontrado para este usuário."}, status=status.HTTP_404_NOT_FOUND)
 
-        from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework import permissions
+        if request.method == 'GET':
+            serializer = self.get_serializer(paciente)
+            return Response(serializer.data)
 
-   
+        serializer = self.get_serializer(paciente, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -28,6 +28,9 @@ from teleconsulta.views.usuario import UsuarioViewSet
 from teleconsulta.views.paciente import PacienteViewSet
 from teleconsulta.views.especialidade import EspecialidadeViewSet
 from teleconsulta.views.medico import MedicoViewSet
+from teleconsulta.views.horario import HorarioViewSet
+from teleconsulta.views.consulta import ConsultaViewSet
+
 
 
 router = DefaultRouter()
@@ -35,6 +38,8 @@ router.register(r'usuarios', UsuarioViewSet, basename='usuario')
 router.register(r'pacientes', PacienteViewSet, basename='paciente')
 router.register(r'especialidades', EspecialidadeViewSet, basename='especialidade')
 router.register(r'medicos', MedicoViewSet, basename='medico')
+router.register(r'horarios', HorarioViewSet, basename='horarios')
+router.register(r'consultas', ConsultaViewSet, basename='consultas')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

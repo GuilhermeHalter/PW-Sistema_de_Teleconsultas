@@ -3,13 +3,20 @@ name = "teleconsulta"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "GuilhermeHalter", email = "halter.guilhermenunes@gmail.com"},
+    { name = "GuilhermeHalter", email = "halter.guilhermenunes@gmail.com" }
 ]
-dependencies = ["django>=6.0.5", "djangorestframework>=3.17.1", "djangorestframework-simplejwt>=5.5.1", "django-cors-headers>=4.9.0"]
-requires-python = "==3.14.*"
-readme = "README.md"
-license = {text = "MIT"}
 
+dependencies = [
+    "django>=6.0.5",
+    "djangorestframework>=3.17.1",
+    "djangorestframework-simplejwt>=5.5.1",
+    "django-cors-headers>=4.9.0"
+]
+
+requires-python = ">=3.12,<3.14"
+readme = "README.md"
+
+license = { text = "MIT" }
 
 [tool.pdm]
 distribution = false
