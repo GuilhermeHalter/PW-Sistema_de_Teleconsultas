@@ -101,7 +101,7 @@ const form = reactive({ id: null, nombre: '', descripcion: '' })
 
 // Ajustado para usar o endpoint correto a partir da baseURL do seu arquivo api.js
 // Se o seu api.js já tiver a baseURL "https://pw-sistema-de-teleconsultas.onrender.com/api", use apenas '/especialidades'
-const apiBase = '/especialidades'
+const apiBase = '/especialidades/'
 
 // Buscar dados da API
 async function fetchAll() {
