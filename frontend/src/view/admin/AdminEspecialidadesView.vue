@@ -32,7 +32,6 @@
         <table class="table table-hover mb-0">
           <thead class="table-light">
             <tr>
-              <th class="px-4 py-3" style="width: 100px">ID</th>
               <th>Nome</th>
               <th>Descrição</th>
               <th class="text-end px-4" style="width: 150px">Ações</th>
@@ -50,9 +49,6 @@
               v-for="especialidade in especialidades"
               :key="especialidade.id"
             >
-              <td class="px-4 py-3 font-monospace small text-muted">
-                #{{ especialidade.id }}
-              </td>
 
               <td>
                 <span class="fw-semibold text-dark">
