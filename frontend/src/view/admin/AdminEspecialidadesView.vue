@@ -24,21 +24,21 @@
           <thead class="table-light">
             <tr>
               <th class="px-4 py-3" style="width: 100px;">ID</th>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th class="text-end px-4" style="width: 150px;">Acciones</th>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th class="text-end px-4" style="width: 150px;">Ações</th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="especialidades.length === 0">
-              <td colspan="4" class="text-center py-4 text-muted">Ninguna especialidad encontrada</td>
+              <td colspan="4" class="text-center py-4 text-muted">Nenhuma especialidade encontrada</td>
             </tr>
             <tr v-for="esp in especialidades" :key="esp.id">
               <td class="px-4 py-3 font-monospace small text-muted">#{{ esp.id }}</td>
               <td>
-                <span class="fw-semibold text-dark">{{ esp.nombre }}</span>
+                <span class="fw-semibold text-dark">{{ esp.nombre || esp.nome }}</span>
               </td>
-              <td class="small text-muted">{{ esp.descripcion || '—' }}</td>
+              <td class="small text-muted">{{ esp.descripcion || esp.descricao || '—' }}</td>
               <td class="text-end px-4">
                 <button class="btn btn-sm btn-outline-secondary rounded-3 me-1 px-3" @click="abrirModal(esp)">
                   <i class="bi bi-pencil"></i>
@@ -55,7 +55,7 @@
       <div v-if="modalAberto" class="modal-overlay d-flex align-items-center justify-content-center" @click.self="fecharModal">
         <div class="modal-card p-4">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="fw-bold mb-0">{{ editing ? 'Editar Especialidad' : 'Nueva Especialidad' }}</h5>
+            <h5 class="fw-bold mb-0">{{ editing ? 'Editar Especialidade' : 'Nova Especialidade' }}</h5>
             <button class="btn btn-sm btn-outline-secondary rounded-circle" @click="fecharModal">
               <i class="bi bi-x"></i>
             </button>
@@ -63,19 +63,19 @@
 
           <div class="row g-3">
             <div class="col-12">
-              <label class="form-label">Nombre *</label>
+              <label class="form-label">Nome *</label>
               <input v-model="form.nombre" class="form-control rounded-3" placeholder="Ex: Cardiologia" required />
             </div>
             <div class="col-12">
-              <label class="form-label">Descripción</label>
-              <textarea v-model="form.descripcion" class="form-control rounded-3" placeholder="Breve descripción de la especialidad" rows="3"></textarea>
+              <label class="form-label">Descrição</label>
+              <textarea v-model="form.descripcion" class="form-control rounded-3" placeholder="Breve descrição da especialidade" rows="3"></textarea>
             </div>
           </div>
 
           <div class="d-flex gap-2 mt-4">
             <button class="btn btn-danger flex-grow-1 rounded-3 fw-bold" @click="onSubmit" :disabled="salvando">
               <span v-if="salvando" class="spinner-border spinner-border-sm me-2"></span>
-              {{ salvando ? 'Guardando...' : (editing ? 'Salvar Alterações' : 'Cadastrar Especialidad') }}
+              {{ salvando ? 'Salvando...' : (editing ? 'Salvar Alterações' : 'Cadastrar Especialidade') }}
             </button>
             <button class="btn btn-outline-secondary rounded-3 px-4" @click="fecharModal">Cancelar</button>
           </div>
@@ -88,7 +88,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import SidebarAdminComp from '../../components/admin/SidebarAdminComp.vue'
-import api from '../../services/api' // Mantido o seu import original de serviço
+import api from '../../services/api' 
 
 const especialidades = ref([])
 const loading = ref(false)
@@ -98,6 +98,9 @@ const modalAberto = ref(false)
 const editing = ref(false)
 
 const form = reactive({ id: null, nombre: '', descripcion: '' })
+
+// Ajustado para usar o endpoint correto a partir da baseURL do seu arquivo api.js
+// Se o seu api.js já tiver a baseURL "https://pw-sistema-de-teleconsultas.onrender.com/api", use apenas '/especialidades'
 const apiBase = '/especialidades'
 
 // Buscar dados da API
@@ -105,11 +108,11 @@ async function fetchAll() {
   loading.value = true
   error.value = null
   try {
-    // Caso sua API retorne os dados dentro de .data como no script dos médicos, 
-    // altere para: const res = await api.get(apiBase); especialidades.value = res.data
-    especialidades.value = await api.get(apiBase)
+    // CORREÇÃO CRÍTICA: Adicionado o .data para capturar o array de resposta do Axios
+    const res = await api.get(apiBase)
+    especialidades.value = res.data 
   } catch (err) {
-    error.value = err.message || 'Error al cargar especialidades.'
+    error.value = err.response?.data?.message || err.message || 'Erro ao carregar especialidades.'
   } finally {
     loading.value = false
   }
@@ -121,8 +124,9 @@ function abrirModal(esp = null) {
   if (esp) {
     editing.value = true
     form.id = esp.id
-    form.nombre = esp.nombre
-    form.descripcion = esp.descripcion
+    // Mantido 'nombre' e 'descripcion' no form caso sua API espere esses campos em espanhol no banco
+    form.nombre = esp.nombre || esp.nome
+    form.descripcion = esp.descripcion || esp.descricao
   } else {
     editing.value = false
     resetForm()
@@ -143,15 +147,19 @@ function resetForm() {
 
 // Criar ou Atualizar Registro
 async function onSubmit() {
-  if (!form.nombre.trim()) {
-    error.value = 'El campo Nombre es obligatorio.'
+  if (!form.nombre || !form.nombre.trim()) {
+    error.value = 'O campo Nome é obrigatório.'
     return
   }
   
   salvando.value = true
   error.value = null
   try {
-    const payload = { nombre: form.nombre, descripcion: form.descripcion }
+    const payload = { 
+      nombre: form.nombre, 
+      descripcion: form.descripcion 
+    }
+    
     if (editing.value) {
       await api.put(`${apiBase}/${form.id}`, payload)
     } else {
@@ -160,7 +168,7 @@ async function onSubmit() {
     fecharModal()
     await fetchAll()
   } catch (err) {
-    error.value = err.message || 'Error al guardar la especialidad.'
+    error.value = err.response?.data?.message || err.message || 'Erro ao salvar a especialidade.'
   } finally {
     salvando.value = false
   }
@@ -168,12 +176,13 @@ async function onSubmit() {
 
 // Remover Registro
 async function remove(esp) {
-  if (!confirm(`¿Eliminar especialidad "${esp.nombre}"? Esta acción es irreversible.`)) return
+  const nomeEspecialidade = esp.nombre || esp.nome
+  if (!confirm(`Deseja eliminar a especialidade "${nomeEspecialidade}"? Esta ação é irreversível.`)) return
   try {
     await api.delete(`${apiBase}/${esp.id}`)
     await fetchAll()
   } catch (err) {
-    error.value = err.message || 'Error al eliminar la especialidad.'
+    error.value = err.response?.data?.message || err.message || 'Erro ao excluir a especialidade.'
   }
 }
 
