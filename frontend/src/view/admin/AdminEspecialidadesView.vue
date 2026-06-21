@@ -184,7 +184,7 @@ const formulario = reactive({
   descricao: "",
 });
 
-const endpoint = "/especialidades";
+const endpoint = "/especialidades/";
 
 // Buscar especialidades
 async function buscarEspecialidades() {
