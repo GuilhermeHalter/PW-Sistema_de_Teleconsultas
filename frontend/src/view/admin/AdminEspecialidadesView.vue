@@ -98,7 +98,7 @@ const modalAberto = ref(false)
 const editing = ref(false)
 
 const form = reactive({ id: null, nombre: '', descripcion: '' })
-const apiBase = '/api/especialidades'
+const apiBase = '/especialidades'
 
 // Buscar dados da API
 async function fetchAll() {
