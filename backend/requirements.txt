@@ -5,6 +5,7 @@ blinker==1.9.0
 certifi==2026.2.25
 dep-logic==0.5.2
 distlib==0.4.0
+dj-database-url==3.1.2
 Django==6.0.2
 django-cors-headers==4.9.0
 djangorestframework==3.17.1
@@ -26,6 +27,7 @@ packaging==26.1
 pbs-installer==2026.4.7
 pdm==2.26.7
 platformdirs==4.9.6
+psycopg2-binary==2.9.12
 Pygments==2.20.0
 PyJWT==2.12.1
 PyMySQL==1.1.2
